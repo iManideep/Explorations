@@ -26,6 +26,30 @@ youtube=build('youtube','v3',developerKey=api_key)
 res=youtube.search().list(q="avengers",part="snippet",type="video").execute()
 res['items']
 
+#logging
+# DEBUG: Detailed information, typically of interest only when diagnosing problems.
+# INFO: Confirmation that things are working as expected.
+# WARNING: An indication that something unexpected happened, or indicative of some problem in the near future (e.g. ‘disk space low’). The software is still working as expected.
+# ERROR: Due to a more serious problem, the software has not been able to perform some function.
+# CRITICAL: A serious error, indicating that the program itself may be unable to continue running.
+# https://www.youtube.com/watch?v=-ARI4Cz-awo
+#for logger format refer - https://docs.python.org/3/library/logging.html#logrecord-attributes
+import logging
+import sys
+from logging.handlers import TimedRotatingFileHandler
+FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+logger_obj=logging.getLogger("Logger-Name")
+logger_obj.setLevel(logging.DEBUG)
+#for printing in console
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setFormatter(FORMATTER)
+logger_obj.addHandler(console_handler)
+#for creating a log file
+file_handler = TimedRotatingFileHandler("myloggerfile.log",when="midnight",encoding="utf-8")
+file_handler.setFormatter(FORMATTER)
+logger_obj.addHandler(file_handler)
+
 
 #api response
 !pip install requests
