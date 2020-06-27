@@ -51,6 +51,19 @@ file_handler.setFormatter(FORMATTER)
 logger_obj.addHandler(file_handler)
 
 
+import os
+import img2pdf
+#A4 Size paper dimensions 210mm x 297mm
+#img2pdf.mm_to_pt() converts millimeter to point
+a4inpt = (img2pdf.mm_to_pt(210),img2pdf.mm_to_pt(297))
+layout_fun = img2pdf.get_layout_fun(pagesize=a4inpt)
+#Input directory name
+DIR_PATH="../Documents"
+file_name=DIR_PATH.split("/")[-1]+".pdf"
+with open(file_name,"wb") as f:
+    f.write(img2pdf.convert([i for i in os.listdir(DIR_PATH) if i.endswith(".jpg")], layout_fun=layout_fun))
+
+
 #api response
 !pip install requests
 import requests
