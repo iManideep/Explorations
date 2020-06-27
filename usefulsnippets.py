@@ -19,6 +19,7 @@ def xml_printer(string):
         f.write(xml_str)
 
 
+
 # "Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and 
 # “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) 
 # is converted back into an object hierarchy.
@@ -185,3 +186,11 @@ def getListOfFiles(dirName):
             allFiles.append(fullPath)                
     return allFiles
 
+
+#Generate QR Code
+!pip install pyqrcode
+!pip install pypng
+import pyqrcode
+s=input("Enter Text to generate QR Code:")
+qr = pyqrcode.create(s)
+qr.png(s+'.png',scale = 8)
