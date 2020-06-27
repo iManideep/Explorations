@@ -19,6 +19,30 @@ def xml_printer(string):
         f.write(xml_str)
 
 
+# "Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and 
+# “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) 
+# is converted back into an object hierarchy.
+import pickle
+class testClass:
+    def __init__(self,var1,var2):
+        self.var1=var1
+        self.var2=var2
+#initiating a class object
+testClassObject = testClass("Testing","pickle")
+#loading class object into dictionary
+test_dict={"testClassObject":testClassObject}
+#using pickle to dump the dictionary object into pkl file(pickling)
+with open("test.pkl","wb") as f:
+    pickle.dump(test_dict,f)
+#reading pkl file to retrieve dictionary object(unpickling)
+with open("test.pkl","rb") as f:
+    loaded_data=pickle.load(f)
+#checking whethere information is retrieved back from pkl file
+print(loaded_data)
+print(loaded_data['testClassObject'].var1)
+print(loaded_data['testClassObject'].var2)
+
+
 #youtube search api
 !pip install google-api-python-client
 from apiclient.discovery import build
