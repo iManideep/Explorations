@@ -89,3 +89,13 @@ def word_xml_printer(file):
     xml_str="".join([etree.tostring(root, encoding="unicode", pretty_print=True)])
     with open('test.xml','w') as f:
         f.write(xml_str)
+
+#Compare two word documents
+import win32com.client
+path = r"C:\Users\meda.manideep\Downloads\\"
+#Create the Application word
+Application=win32com.client.gencache.EnsureDispatch("Word.Application")
+Application.CompareDocuments(Application.Documents.Open(path + "Test1.docx"),Application.Documents.Open(path + "Test2.docx"))
+# Save the comparison document as "Comparison.docx"
+Application.ActiveDocument.SaveAs(FileName = path + "Comparison.docx")
+Application.Quit()
