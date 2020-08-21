@@ -1,0 +1,4 @@
+AWS Lambda
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html
+Azure Function
+https://docs.microsoft.com/en-us/azure/developer/python/tutorial-vs-code-serverless-python-01
