@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mandy's URL Shortener</title>
+</head>
+<body>
+    <p>Enter URL for Shortening:</p>
+    <form method="POST" action="/create_id">
+        <input type="text" id="date" name="inputurl">
+        <input type="submit">
+    </form>
+    {% if home==False %}
+        <p></p>
+        <a href={{short_link}}>{{URL}}</a>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+    {% if dashboard==True %}
+        Dashboard
+    {% else %}
+        {{title}}
+    {% endif %}
+       </title>
+</head>
+<body>
+    {{table|safe}}
+</body>
+</html>
