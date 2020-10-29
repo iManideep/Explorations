@@ -308,3 +308,29 @@ print("pop() : ",de)
 # using popleft() to delete element from left end 
 de.popleft()
 print("popleft() : ",de)
+
+
+import sys
+sys.exc_info()
+# This function returns a tuple of (type, value, traceback) that give information
+# about the exception that is currently being handled.
+# If no exception is being handled anywhere on the stack, a tuple containing three None values is returned.
+# type gets the exception type of the exception being handled (a class object)
+# value gets the exception parameter 
+# traceback gets a traceback object which encapsulates the call stack at the point where the exception originally occurred.
+
+import traceback
+traceback.format_exc()
+# returns a string with exception information and stack trace entries from traceback object
+
+try:
+    [1,2,3][7]
+except Exception as e:
+    error = {
+            "status":"error",
+            "response":{
+                "ErrorType":sys.exc_info()[0].__name__,
+                "Message":str(sys.exc_info()[1]),
+                "Traceback":traceback.format_exc()
+            }
+    }
