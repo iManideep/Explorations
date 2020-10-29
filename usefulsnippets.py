@@ -194,3 +194,44 @@ import pyqrcode
 s=input("Enter Text to generate QR Code:")
 qr = pyqrcode.create(s)
 qr.png(s+'.png',scale = 8)
+
+
+# zip()
+name = ["Nikhil","Shambhavi","Astha"] 
+roll_no = [1,3,2] 
+marks = [50, 60, 70] 
+# zipping iterators name,roll_no,marks
+mapped = zip(name, roll_no, marks) 
+# mapped is a zip object converting it to a list 
+mapped = list(mapped)
+print("Zipped List Result : ",mapped) 
+# zipping iterators
+mapped_dict = zip(name, roll_no) 
+# mapped is a zip object converting it to a dict
+mapped_dict = dict(mapped_dict)
+print("Zipped Dict Result : ",mapped_dict) 
+# unzipping values 
+namz, roll_noz, marksz = zip(*mapped) 
+print("Unzipped Result : ") 
+print("Name list is : ",end="") 
+print(namz)
+print("Roll Number list is : ",end="") 
+print(roll_noz)
+print("Marks list is : ",end="") 
+print(marksz)
+
+
+# filter()
+a = [1,2,3,4,5,6]
+# capturing only even numbers in a list 
+# based on boolean returned by lambda 
+# function inside filter
+print(list(filter(lambda x: x%2==0,a)))
+
+
+# reduce()
+# apply a particular function passed in
+# its argument to all of the list elements
+# mentioned in the sequence passed along
+from functools import reduce
+print(reduce(lambda x,y:x*y,[1,2,3,4,5]))
