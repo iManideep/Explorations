@@ -235,3 +235,76 @@ print(list(filter(lambda x: x%2==0,a)))
 # mentioned in the sequence passed along
 from functools import reduce
 print(reduce(lambda x,y:x*y,[1,2,3,4,5]))
+
+
+# product()
+# get cartesian product two iterables
+from itertools import product
+print(list(product([1,2,3],[4,5,6])))
+
+
+# permutations()
+# generate all possible permutations of an iterable
+from itertools import permutations  
+print(list(permutations(iterable=[1,2,3,4],r=2)))
+
+
+# combinations()
+# generate all possible combinations of an iterable
+from itertools import combinations
+print(list(combinations(iterable=[1,2,3,4],r=2)))
+
+
+# groupby()
+# returns key and iterable of grouped items
+from itertools import groupby
+L = [("a", 1), ("a", 2), ("b", 3), ("b", 4)] 
+for key, group in groupby(iterable=L, key=lambda x: x[0]): 
+    print(key + " :", list(group))
+print("")
+L = "AABBAAACCB"
+for key, group in groupby(iterable=L): 
+    print(key + " :", len(list(group)))
+
+
+# Counter()
+# keep the count of the elements in an iterable in the
+# form of an unordered dictionary where the key represents
+# the element in the iterable and value represents the 
+# count of that element in the iterable
+from collections import Counter 
+counter_obj=Counter(['B','B','A','B','C','A','B','B','A','C'])
+print(x)
+for i,j in counter_obj.items():
+    print(i,j)
+
+
+# OrderedDict()
+# It remembers the order in which the keys were inserted.
+from collections import OrderedDict 
+od = OrderedDict()
+od['a'] = 1
+od['b'] = 2
+od['c'] = 3
+od['d'] = 4
+for key, value in od.items(): 
+    print(key, value)
+
+
+# Deque (Doubly Ended Queue) is the optimized list for quicker
+# append and pop operations from both sides of the containe
+from collections import deque 
+de = deque([1,2,3]) 
+print("Initial : ",de)
+# using append() to insert element at right end 
+de.append(4)
+print("append(4) : ",de)
+# using appendleft() to insert element at left end
+de.appendleft(6) 
+print("appendleft(6) : ",de)
+# using pop() to delete element from right end 
+de.pop() 
+print("pop() : ",de) 
+# using popleft() to delete element from left end 
+de.popleft()
+print("popleft() : ",de)
