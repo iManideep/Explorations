@@ -74,20 +74,20 @@ def getContours(img, imgDraw, cThr=[100, 100], minArea=1000, draw=False):
 
                 # returns the 4 points of the bounding box
                 bbox = cv2.boundingRect(approx)
-                finalCountours.append([len(approx), area, approx, bbox, i])
+                finalCountours.append(bbox)
             
     # sorting based on order of highlighted text
-    finalCountours = sorted(finalCountours, key=lambda x: x[3][1], reverse=False)
+    finalCountours = sorted(finalCountours, key=lambda x: x[1], reverse=False)
     if draw:
         for con in finalCountours:
-            x, y, w, h = con[3]
+            x, y, w, h = con
             cv2.rectangle(imgDraw, (x, y), (x + w, y + h), (255, 0, 255), 3)
     return imgDraw, finalCountours
 
 def getRoi(img, contours):
     roiList = []
     for con in contours:
-        x, y, w, h = con[3]
+        x, y, w, h = con
         roiList.append(img[y:y + h, x:x + w])
     return roiList
 
