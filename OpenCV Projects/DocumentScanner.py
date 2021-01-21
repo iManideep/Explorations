@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
+import os
 
-path="1.jpg"
+absolute_path = os.path.abspath(__file__+"/..")
+path = absolute_path + r"/test_images/document_scanner.jpg"
 widthImg  = 480
 heightImg = 640
 #kernel is a matrix that we use to iterate
