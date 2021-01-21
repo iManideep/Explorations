@@ -6,11 +6,13 @@ import html
 import cv2
 import shutil
 from docx import Document
+import os
 
+absolute_path = os.path.abspath(__file__+"/..")
 #path for word document to be worked on
-word_path=r"C:\Users\meda.manideep\Downloads\Xyz.docx"
+word_path=  absolute_path + "/test_images/word.docx"
 #tesseract executable path
-pytesseract.pytesseract.tesseract_cmd=r"C:\Users\meda.manideep\AppData\Local\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = absolute_path + "/../../../AppData/Local/Tesseract-OCR/tesseract.exe"
 
 #extracts text from image 
 def image_to_text_converter(path):
