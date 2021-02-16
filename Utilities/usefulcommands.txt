@@ -1,3 +1,7 @@
 Create Virtual Environment : python -m venv FOLDERNAME
 Activate Virtual Environment : CompletePathToVirtualEnvironmnetFolder\Scripts\activate
 Install all packages listed in requirements.txt : pip install -r requirements.txt
+
+To Resize all pages of a PDF to A4 Size :
+Install GhostScript
+C:\Program Files\gs\gs9.53.3\bin>gswin64 -o output_directory_path\output.pdf -sDEVICE=pdfwrite -sPAPERSIZE=a4 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 input_directory_path\input.pdf
