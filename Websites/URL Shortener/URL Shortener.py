@@ -17,9 +17,6 @@ UPCASE_CHARACTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                      'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 
                      'Z']
 COMBINED_LIST = DIGITS + UPCASE_CHARACTERS + LOCASE_CHARACTERS
-@app.route("/")
-def home():
-    return render_template("index.html",home=True)
 
 @app.route("/create_id",methods=["POST"])
 def create_id():
@@ -38,12 +35,16 @@ def create_id():
     loaded_data[shortened_id]=actual_url
     with open("database.pkl","wb") as f:
         pickle.dump(loaded_data,f)
-    return render_template("index.html",home=False,short_link=f"/redirecter/{shortened_id}",URL=f"https://localhost:5000/redirecter/{shortened_id}")
+    return render_template("index.html",home=False,short_link=f"/{shortened_id}",URL=f"https://localhost:5000/{shortened_id}")
 
-@app.route("/redirecter/<shortened_id>")
-def redirecter(shortened_id):
-    with open("database.pkl","rb") as f:
-        loaded_data=pickle.load(f)
-    actual_url=loaded_data[shortened_id]
-    return redirect(actual_url)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def redirecter(path):
+    if path.replace(" ","") == '':
+        return render_template("index.html",home=True)
+    else:
+        with open("database.pkl","rb") as f:
+            loaded_data=pickle.load(f)
+        actual_url=loaded_data[path]
+        return redirect(actual_url)
 app.run(debug=True)
