@@ -18,9 +18,7 @@ UPCASE_CHARACTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                      'Z']
 COMBINED_LIST = DIGITS + UPCASE_CHARACTERS + LOCASE_CHARACTERS
 
-@app.route("/create_id",methods=["POST"])
-def create_id():
-    actual_url=request.form["inputurl"]
+def random_url():
     temp_pass=""
     temp_pass += random.choice(DIGITS)
     temp_pass += random.choice(UPCASE_CHARACTERS) 
@@ -29,9 +27,17 @@ def create_id():
         temp_pass += random.choice(COMBINED_LIST)
     temp_pass_list=temp_pass.split()
     random.shuffle(temp_pass_list)
-    shortened_id="".join(temp_pass_list)
+    shortened_id = "".join(temp_pass_list)
+    return shortened_id
+
+@app.route("/create_id",methods=["POST"])
+def create_id():
+    actual_url=request.form["inputurl"]
+    shortened_id = random_url()
     with open("database.pkl","rb") as f:
         loaded_data=pickle.load(f)
+    while shortened_id in loaded_data:
+        shortened_id = random_url()
     loaded_data[shortened_id]=actual_url
     with open("database.pkl","wb") as f:
         pickle.dump(loaded_data,f)
