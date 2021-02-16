@@ -3,12 +3,18 @@
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
    </head>
    <body>
-      <form action = "/decrypt" method = "POST" enctype = "multipart/form-data" 
+      <form action = "/Encryption" method = "POST" enctype = "multipart/form-data" 
          onsubmit="document.getElementById('message').innerHTML = ''; this.submit(); this.reset(); return false;">
          <input type = "file" name = "file" accept = ".pdf"/>
          <br/>
          <br/>
          Password : <input type="text" id="password" name="password"/>
+         <br/>
+         <br/>
+         <input type="radio" id="encrypt" name="EncryptionType" value="encrypt">
+         <label for="encrypt">Encrypt</label>
+         <input type="radio" id="decrypt" name="EncryptionType" value="decrypt">
+         <label for="decrypt">Decrypt</label>
          <br/>
          <br/>
          <input type = "submit"/>
