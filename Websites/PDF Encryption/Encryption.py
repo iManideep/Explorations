@@ -8,7 +8,7 @@ import io
 from PyPDF2 import PdfFileWriter, PdfFileReader
 app = Flask(__name__)
 
-@app.route('/Encryption', methods = ['GET', 'POST'])
+@app.route('/', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'GET':
         return render_template('index.html', message = "")

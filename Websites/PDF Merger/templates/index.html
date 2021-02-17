@@ -1,0 +1,76 @@
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+   </head>
+   <body>
+      <form action = "/" method = "POST" enctype = "multipart/form-data" 
+         onsubmit="document.getElementById('message').innerHTML = ''; this.submit(); this.reset(); return false;">
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <input type = "file" name = "filelist" accept = ".pdf" multiple/>
+         <br/>
+         <br/>
+         <input type = "submit"/>
+         <br/>
+         <br/>
+         <p id='message'>{{message}}</p>
+      </form>
+      
+      <div id = "sortablelist" class="list-group col">
+      {% if name_list %}
+         {% for file in name_list %}
+            <div class = "list-group-item" name={{file}}>{{actual_name_list[name_list.index(file)]}}</div>
+         {% endfor %}
+      {% endif %}
+      </div>
+      {% if name_list %}
+         <br/>
+         <br/>
+         <button onclick="myFunction()">Download</button>
+      {% endif %}
+      
+      <script src="http://sortablejs.github.io/Sortable/Sortable.js"></script>
+      <script>
+         // https://stackoverflow.com/questions/32545632/how-can-i-download-a-file-using-window-fetch
+         // http://sortablejs.github.io/Sortable/
+         new Sortable(sortablelist, {
+         animation: 150,
+         ghostClass: 'blue-background-class'
+         });
+
+         function myFunction() {
+         var ordered_list = document.getElementsByClassName("list-group-item");
+         var ordered_names = [];
+         for (var i = 0; i < ordered_list.length; i++) {
+            ordered_names[i] = ordered_list[i].getAttribute("name");
+         }
+         console.log(ordered_names)
+         var body = JSON.stringify({ordered_names:ordered_names});
+         fetch("/merger",
+         {
+            method:"post", 
+            body:body,
+            headers: {
+               'Content-Type': 'application/json'
+            }
+         }).then( res => res.blob() )
+         .then( blob => {
+            var file = window.URL.createObjectURL(blob);
+            // window.location.assign(file);
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = file;
+            a.download = "merged.pdf";
+            a.click();
+            setTimeout(() => {
+               window.URL.revokeObjectURL(file);
+               document.body.removeChild(a);
+            }, 0)
+         });
+         }
+      </script>
+   </body>
+</html>
