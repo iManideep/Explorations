@@ -12,6 +12,9 @@ def upload_file():
         return render_template('index.html', message = "")
     elif request.method == 'POST':
         uploaded_files = request.files.getlist("filelist")
+        if uploaded_files[0].filename == "":
+            return render_template('index.html', 
+                        message = "Please upload PDF files before submitting")
         name_list = []
         actual_name_list = []
         for file in uploaded_files:
