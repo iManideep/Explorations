@@ -19,7 +19,7 @@ def upload_file():
         actual_name_list = []
         for file in uploaded_files:
             actual_name_list.append(file.filename)
-            name_list.append(file.filename.replace(" ","_"))
+            name_list.append(file.filename.replace(" ","_").replace("(","").replace(")",""))
             file.save(secure_filename(file.filename))
         
         if not all(map(os.path.isfile, name_list)):
