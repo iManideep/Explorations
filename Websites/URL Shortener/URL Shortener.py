@@ -51,6 +51,9 @@ def redirecter(path):
     else:
         with open("database.pkl","rb") as f:
             loaded_data=pickle.load(f)
-        actual_url=loaded_data[path]
-        return redirect(actual_url)
+        if path in loaded_data:
+            actual_url=loaded_data[path]
+            return redirect(actual_url)
+        else:
+            return "Specified URL doesn't exist"
 app.run(debug=True)
