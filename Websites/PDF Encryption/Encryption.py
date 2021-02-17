@@ -14,6 +14,9 @@ def upload_file():
         return render_template('index.html', message = "")
     elif request.method == 'POST':
         try:
+            for file in os.listdir():
+                if file.endswith(".pdf"):
+                    os.remove(file)
             if 'password' not in request.form:
                 return render_template('index.html', message = "Please enter password before submitting")
             password = request.form.get('password')
