@@ -14,9 +14,17 @@ def upload_file():
         return render_template('index.html', message = "")
     elif request.method == 'POST':
         try:
+            if 'password' not in request.form:
+                return render_template('index.html', message = "Please enter password before submitting")
             password = request.form.get('password')
+            if password.replace(" ","") == "":
+                return render_template('index.html', message = "Please enter password before submitting")
+            if 'EncryptionType' not in request.form:
+                return render_template('index.html', message = "Please select type of encryption before submitting")
             EncryptionType = request.form.get('EncryptionType')
             f = request.files['file']
+            if f.filename.replace(" ","") == "":
+                return render_template('index.html', message = "Please upload a PDF file before submitting")
             f.save(secure_filename(f.filename))
             fileName = f.filename
             if not fileName.endswith(".pdf"):
