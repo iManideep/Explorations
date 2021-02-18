@@ -46,7 +46,7 @@
          for (var i = 0; i < ordered_list.length; i++) {
             ordered_names[i] = ordered_list[i].getAttribute("name");
          }
-         console.log(ordered_names)
+         
          var body = JSON.stringify({ordered_names:ordered_names});
          fetch("/merger",
          {

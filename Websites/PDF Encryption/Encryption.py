@@ -29,7 +29,7 @@ def upload_file():
             if f.filename.replace(" ","") == "":
                 return render_template('index.html', message = "Please upload a PDF file before submitting")
             f.save(secure_filename(f.filename))
-            fileName = f.filename
+            fileName = f.filename.replace(" ","_").replace("(","").replace(")","")
             if not fileName.endswith(".pdf"):
                 os.remove(fileName)
                 return render_template('index.html', message = "Please upload PDF files only")
