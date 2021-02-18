@@ -23,7 +23,7 @@ button {
 .list-group-item {
     height: 700;
     width: 50%;
-    margin: 0 auto;
+    margin: 20px auto;
     position: relative;
     display: block;
     padding: .75rem 1.25rem;

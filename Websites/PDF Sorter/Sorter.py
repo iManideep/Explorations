@@ -32,6 +32,10 @@ def upload_file():
                 os.remove(fileName)
                 return render_template('index.html', message = "Please upload PDF file only")
             
+            input_pdf = PdfFileReader(fileName)
+            if input_pdf.isEncrypted:
+                return render_template('index.html', message = "Please upload PDF without encryption only")
+            
             poppler_path = os.path.abspath(__file__+r"\..\..\..\..\..\Downloads\poppler-0.68.0_x86\poppler-0.68.0\bin")
             images = convert_from_path(fileName,500, poppler_path = poppler_path)
             images_list = []

@@ -26,9 +26,7 @@
                {% for page_image in images_list %}
                   <div class = "list-group-item" name={{page_image[:-4]}}>
                     <img src="{{url_for('static', filename='images/'+page_image)}}" width="300" height="700" class="center"/>
-                  </div>
-                    <br/>
-                    <br/>
+                  </div>  
                {% endfor %}
             {% endif %}
             </div>
