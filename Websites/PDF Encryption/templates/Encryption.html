@@ -10,8 +10,8 @@
         </style>
    </head>
    <body>
-      <h1>Encrypt and Decrypt PDF</h1>
-      <h2>Protect file with password</h2>
+      <h1>Encrypt or Unlock PDF</h1>
+      <h2>Add or Remove password from PDF files</h2>
       <form action = "/" method = "POST" enctype = "multipart/form-data" 
          onsubmit="document.getElementById('message').innerHTML = ''; this.submit(); this.reset(); return false;">
          <input type = "file" name = "file" accept = ".pdf" class="foo" required/>
@@ -23,7 +23,7 @@
          <input type="radio" id="encrypt" name="EncryptionType" value="encrypt" required>
          <label for="encrypt">Encrypt</label>
          <input type="radio" id="decrypt" name="EncryptionType" value="decrypt" required>
-         <label for="decrypt">Decrypt</label>
+         <label for="decrypt">Unlock</label>
          <br/>
          <br/>
          <input type = "submit" value="Download"/>

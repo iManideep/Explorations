@@ -64,7 +64,7 @@ def upload_file():
                     else:
                         opened_file.close()
                         os.remove(fileName)
-                        return render_template('Encryption.html', message = "Please upload a PDF with encryption")
+                        return render_template('Encryption.html', message = "Please upload a PDF with password")
                 else:
                     return render_template('Encryption.html', message = "File doesn't exists")
             
@@ -94,7 +94,7 @@ def upload_file():
                     else:
                         opened_file.close()
                         os.remove(fileName)
-                        return render_template('Encryption.html', message = "Please upload a PDF without encryption")
+                        return render_template('Encryption.html', message = "Please upload a PDF without password")
                 else:
                     return render_template('Encryption.html', message = "File doesn't exists")
         except:
