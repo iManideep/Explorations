@@ -1,15 +1,22 @@
 <html>
    <head>
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+      <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <style>
+            h1,h2{
+                font-family: 'Lato';
+                text-align: center;
+            }
+        </style>
    </head>
    <body>
+      <h1>Merge PDF Files</h1>
+      <h2>Combine multiple PDFs into one</h2>
       <form action = "/" method = "POST" enctype = "multipart/form-data" 
          onsubmit="document.getElementById('message').innerHTML = ''; this.submit(); this.reset(); return false;">
          <br/>
+         <input type = "file" name = "filelist" class = "foo" accept = ".pdf" multiple required/>
          <br/>
-         <br/>
-         <br/>
-         <input type = "file" name = "filelist" accept = ".pdf" multiple required/>
          <br/>
          <br/>
          <input type = "submit"/>

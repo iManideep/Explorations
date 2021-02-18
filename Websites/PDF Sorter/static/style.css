@@ -7,6 +7,10 @@ button {
     display: block;
 }
 
+.foo {
+    padding-left: 100px;
+}
+
 .list-group-item img {
     flex-shrink: 0;
     min-width: 100%;

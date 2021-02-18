@@ -4,15 +4,22 @@
         <meta http-equiv='cache-control' content='no-cache'> 
         <meta http-equiv='expires' content='0'> 
         <meta http-equiv='pragma' content='no-cache'> 
+        <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <style>
+            h1,h2{
+                font-family: 'Lato';
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
+        <h1>Organize PDF Pages</h1>
+        <h2>Arrange and reorder PDF pages</h2>
         <form action = "/" method = "POST" enctype = "multipart/form-data" 
         onsubmit="document.getElementById('message').innerHTML = ''; this.submit(); this.reset(); return false;">
         <br/>
+        <input type = "file" name = "file" class = "foo" accept = ".pdf" required/>
         <br/>
-        <br/>
-        <br/>
-        <input type = "file" name = "file" accept = ".pdf" required/>
         <br/>
         <br/>
         <input type = "submit"/>

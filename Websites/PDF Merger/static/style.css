@@ -7,6 +7,10 @@ button {
     display: block;
 }
 
+.foo {
+    padding-left: 90px;
+}
+
 .list-group-item {
     position: relative;
     display: block;
