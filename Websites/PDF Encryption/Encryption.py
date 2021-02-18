@@ -11,28 +11,28 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'GET':
-        return render_template('index.html', message = "")
+        return render_template('Encryption.html', message = "")
     elif request.method == 'POST':
         try:
             for file in os.listdir():
                 if file.endswith(".pdf"):
                     os.remove(file)
             if 'password' not in request.form:
-                return render_template('index.html', message = "Please enter password before submitting")
+                return render_template('Encryption.html', message = "Please enter password before submitting")
             password = request.form.get('password')
             if password.replace(" ","") == "":
-                return render_template('index.html', message = "Please enter password before submitting")
+                return render_template('Encryption.html', message = "Please enter password before submitting")
             if 'EncryptionType' not in request.form:
-                return render_template('index.html', message = "Please select type of encryption before submitting")
+                return render_template('Encryption.html', message = "Please select type of encryption before submitting")
             EncryptionType = request.form.get('EncryptionType')
             f = request.files['file']
             if f.filename.replace(" ","") == "":
-                return render_template('index.html', message = "Please upload a PDF file before submitting")
+                return render_template('Encryption.html', message = "Please upload a PDF file before submitting")
             f.save(secure_filename(f.filename))
             fileName = f.filename.replace(" ","_").replace("(","").replace(")","")
             if not fileName.endswith(".pdf"):
                 os.remove(fileName)
-                return render_template('index.html', message = "Please upload PDF files only")
+                return render_template('Encryption.html', message = "Please upload PDF files only")
             if EncryptionType == "decrypt":
                 if os.path.isfile(fileName):
                     opened_file = open(fileName,'rb')
@@ -60,13 +60,13 @@ def upload_file():
                         else:
                             opened_file.close()
                             os.remove(fileName)
-                            return render_template('index.html', message = "Please enter correct password")
+                            return render_template('Encryption.html', message = "Please enter correct password")
                     else:
                         opened_file.close()
                         os.remove(fileName)
-                        return render_template('index.html', message = "Please upload a PDF with encryption")
+                        return render_template('Encryption.html', message = "Please upload a PDF with encryption")
                 else:
-                    return render_template('index.html', message = "File doesn't exists")
+                    return render_template('Encryption.html', message = "File doesn't exists")
             
             elif EncryptionType == "encrypt":
                 if os.path.isfile(fileName):
@@ -94,11 +94,11 @@ def upload_file():
                     else:
                         opened_file.close()
                         os.remove(fileName)
-                        return render_template('index.html', message = "Please upload a PDF without encryption")
+                        return render_template('Encryption.html', message = "Please upload a PDF without encryption")
                 else:
-                    return render_template('index.html', message = "File doesn't exists")
+                    return render_template('Encryption.html', message = "File doesn't exists")
         except:
-            return render_template('index.html', message = "Some error occured. Please try again")
+            return render_template('Encryption.html', message = "Some error occured. Please try again")
 		
 if __name__ == '__main__':
     app.run(debug = True)
